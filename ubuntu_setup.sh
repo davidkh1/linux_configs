@@ -26,17 +26,18 @@ fi
 sudo apt update
 sudo apt upgrade
 
-sudo apt install -y curl wget geany gcc
+sudo apt install -y curl wget geany gcc snapd
 sudo apt install linux-headers-$(uname -r)
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
 
 echo "Installing browsers ..."
 sudo apt install -y firefox
-sudo apt install -y brave-browser
 
 echo "Downloading and installing Google Chrome..."
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get -f install -y
+
+echo "Installing Brave brower ..."
 
 echo "Installing Tor browser from Snap ..."
 sudo snap install tor-browser
