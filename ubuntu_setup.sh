@@ -2,10 +2,11 @@
 #
 # Installs various software for Ubuntu 22.04 LTS with GPU.
 #
-# Instructions:
+# Initial manual instructions to copy-paste and execute:
 # Install git:
-# 	sudo apt install git
-# 
+# 	sudo apt install -y git
+# 	sudo apt install -y gh
+#   gh auth login
 # Download the script and make executable
 #	gh repo clone davidkh1/linux_configs
 #	cd linux_configs
@@ -25,24 +26,9 @@ fi
 sudo apt update
 sudo apt upgrade
 
-sudo apt install curl -y
-sudo apt install -y git
-
-# Instal hg (GitHub)
-type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
-curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-&& sudo apt update \
-&& sudo apt install gh -y
-
-
+sudo apt install -y curl wget geany gcc
 sudo apt install linux-headers-$(uname -r)
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
-sudo apt install -y wget
-sudo apt install -y geany
-sudo apt install -y gcc
-
 
 echo "Installing browsers ..."
 sudo apt install -y firefox
