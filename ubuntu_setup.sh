@@ -1,7 +1,14 @@
 #!/bin/sh
 #
 # Installs various software for Ubuntu 22.04 LTS with GPU.
-# Make the script executable
+#
+# Instructions:
+# Install git:
+# 	sudo apt install git
+# 
+# Download the script and make executable
+#	gh repo clone davidkh1/linux_configs
+#	cd linux_configs
 #  	chmod +x ubuntu_setup.sh
 # Run:
 #   sudo ./ubuntu_setup.sh
@@ -15,15 +22,26 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-
 sudo apt update
 sudo apt upgrade
 
-sudo apt-get install linux-headers-$(uname -r)
-sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-sudo apt-get install -y wget
-sudo apt-get install -y geany
-sudo apt-get install -y gcc
+sudo apt install curl -y
+sudo apt install -y git
+
+# Instal hg (GitHub)
+type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+&& sudo apt update \
+&& sudo apt install gh -y
+
+
+sudo apt install linux-headers-$(uname -r)
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+sudo apt install -y wget
+sudo apt install -y geany
+sudo apt install -y gcc
 
 
 echo "Installing browsers ..."
@@ -44,19 +62,16 @@ echo "Installing Blender ..."
 sudo apt install -y blender
 
 echo "Installing utilities ..."
-sudo apt-get install -y vlc meshlab cheese qbittorrent
+sudo apt install -y vlc meshlab cheese qbittorrent
 
 # Install Zoom
 wget https://zoom.us/client/latest/zoom_amd64.deb
 sudo dpkg -i zoom_amd64.deb
-sudo apt-get install -f
+sudo apt install -f
 
-# Install Slack (Snap package)
 sudo snap install slack --classic
-
-# Install Obsidian (Snap package)
 sudo snap install obsidian --classic
-
+sudo snap install spotify
 
 # Install Dropbox and start it 
 cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
@@ -65,7 +80,7 @@ cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
 # Install Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get install -y docker-ce
+sudo apt install -y docker-ce
 
 # Docker post-installation steps (optional)
 sudo groupadd docker
@@ -76,9 +91,9 @@ newgrp docker
 # Installing NVidia's software:
 # https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu
 # Install CUDA SDK:
-sudo apt-get install cuda-toolkit
+sudo apt install cuda-toolkit
 # To include all GDS packages:
-sudo apt-get install nvidia-gds
+sudo apt install nvidia-gds
 #need reboot and manual configuaritions. See a separate nvidia_install.sh (TODO)
 
 # For applications requiring manual setup or download from their websites:
